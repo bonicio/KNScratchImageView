@@ -1,27 +1,27 @@
 //
-// Scratch and See 
+// Scratch and See
 //
-// The project provides en effect when the user swipes the finger over one texture 
-// and by swiping reveals the texture underneath it. The effect can be applied for 
+// The project provides en effect when the user swipes the finger over one texture
+// and by swiping reveals the texture underneath it. The effect can be applied for
 // scratch-card action or wiping a misted glass.
 //
 // Copyright (C) 2012 http://moqod.com Andrew Kopanev <andrew@moqod.com>
 //
-// Permission is hereby granted, free of charge, to any person obtaining a copy 
-// of this software and associated documentation files (the "Software"), to deal 
-// in the Software without restriction, including without limitation the rights 
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies 
-// of the Software, and to permit persons to whom the Software is furnished to do so, 
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
+// of the Software, and to permit persons to whom the Software is furnished to do so,
 // subject to the following conditions:
 //
-// The above copyright notice and this permission notice shall be included in all 
+// The above copyright notice and this permission notice shall be included in all
 // copies or substantial portions of the Software.
 //
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, 
-// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR 
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR
 // PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE
-// FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR 
-// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
+// FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 // DEALINGS IN THE SOFTWARE.
 //
 
@@ -59,41 +59,40 @@ typedef void  (*FillTileWithTwoPointsFunc)(id, SEL, CGPoint, CGPoint);
 	self.maskedMatrix = nil;
 	CGColorSpaceRelease(self.colorSpace);
 	CGContextRelease(self.imageContext);
-    [super dealloc];
 }
 
 #pragma mark -
 
-- (id)initWithFrame:(CGRect)frame image:(UIImage *)img {
+- (id)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
         // Initialization code
 		self.userInteractionEnabled = YES;
 		self.backgroundColor = [UIColor clearColor];
 		self.imageMaskFilledDelegate = nil;
-		
-		self.image = img;
-		CGSize size = self.image.size;
-		
-		// initalize bitmap context
-		self.colorSpace = CGColorSpaceCreateDeviceRGB();
-		self.imageContext = CGBitmapContextCreate(0,size.width, 
-												  size.height, 
-												  8, 
-												  size.width*4, 
-												  colorSpace, 
-												  kCGImageAlphaPremultipliedLast	);
-		CGContextDrawImage(self.imageContext, CGRectMake(0, 0, size.width, size.height), self.image.CGImage);
-		
-		int blendMode = kCGBlendModeClear;
-		CGContextSetBlendMode(self.imageContext, (CGBlendMode) blendMode);
-		
-		tilesX = size.width / (2 * radius);
-		tilesY = size.height / (2 * radius);
-		
-		self.maskedMatrix = [[[Matrix alloc] initWithMax:MySizeMake(tilesX, tilesY)] autorelease];
-		self.tilesFilled = 0;
     }
     return self;
+}
+
+-(void)beginInteraction {
+    // Initalize bitmap context
+    CGSize size = self.image.size;
+    self.colorSpace = CGColorSpaceCreateDeviceRGB();
+    self.imageContext = CGBitmapContextCreate(0,size.width,
+                                              size.height,
+                                              8,
+                                              size.width*4,
+                                              colorSpace,
+                                              kCGImageAlphaPremultipliedLast	);
+    CGContextDrawImage(self.imageContext, CGRectMake(0, 0, size.width, size.height), self.image.CGImage);
+
+    int blendMode = kCGBlendModeClear;
+    CGContextSetBlendMode(self.imageContext, (CGBlendMode) blendMode);
+
+    tilesX = size.width / (2 * radius);
+    tilesY = size.height / (2 * radius);
+
+    self.maskedMatrix = [[Matrix alloc] initWithMax:MySizeMake(tilesX, tilesY)];
+    self.tilesFilled = 0;
 }
 
 #pragma mark -
@@ -136,7 +135,7 @@ typedef void  (*FillTileWithTwoPointsFunc)(id, SEL, CGPoint, CGPoint);
 			
 			CGContextAddEllipseInRect(ctx, rect);
 			CGContextFillPath(ctx);
-
+            
 			static const FillTileWithPointFunc fillTileFunc = (FillTileWithPointFunc) [self methodForSelector:@selector(fillTileWithPoint:)];
 			(*fillTileFunc)(self,@selector(fillTileWithPoint:),rect.origin);
 		} else if(UITouchPhaseMoved == touch.phase) {
@@ -170,12 +169,12 @@ typedef void  (*FillTileWithTwoPointsFunc)(id, SEL, CGPoint, CGPoint);
 	return image;
 }
 
-/* 
- * filling tile with one ellipse
+/*
+ * Filling tile with one ellipse
  */
 
 -(void)fillTileWithPoint:(CGPoint) point{
-	size_t x,y;	
+	size_t x,y;
 	x = point.x * self.maskedMatrix.max.x / self.image.size.width;
 	y = point.y * self.maskedMatrix.max.y / self.image.size.height;
 	char value = [self.maskedMatrix valueForCoordinates:x y:y];
@@ -186,7 +185,7 @@ typedef void  (*FillTileWithTwoPointsFunc)(id, SEL, CGPoint, CGPoint);
 }
 
 /*
- * filling tile with line
+ * Filling tile with line
  */
 
 -(void)fillTileWithTwoPoints:(CGPoint)begin end:(CGPoint)end{

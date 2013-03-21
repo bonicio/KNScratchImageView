@@ -40,6 +40,6 @@
 @property (nonatomic, readonly) double procentsOfImageMasked;
 @property (nonatomic, assign) id<ImageMaskFilledDelegate> imageMaskFilledDelegate;
 
-- (id)initWithFrame:(CGRect)frame image:(UIImage *)img;
+-(void)beginInteraction;
 
 @end
