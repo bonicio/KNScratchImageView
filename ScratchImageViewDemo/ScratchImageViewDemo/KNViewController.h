@@ -9,8 +9,8 @@
 #import "ImageMaskView.h"
 
 @interface KNViewController : UIViewController <ImageMaskFilledDelegate> {
-    __weak IBOutlet ImageMaskView *scratchImage;
-    __weak IBOutlet ImageMaskView *wonImage;
+    __weak IBOutlet ImageMaskView * scratchImage;
+    __weak IBOutlet UIImageView   * wonImage;
 }
 
 @end

@@ -24,7 +24,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <connections>
-                        <outlet property="scratchImage" destination="CZS-T8-fHU" id="GZh-6p-eNE"/>
+                        <outlet property="scratchImage" destination="Pbn-HP-oZh" id="7hC-2h-1Ep"/>
                         <outlet property="wonImage" destination="CZS-T8-fHU" id="qel-tG-bOG"/>
                     </connections>
                 </viewController>
