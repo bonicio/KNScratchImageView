@@ -159,7 +159,7 @@ typedef void  (*FillTileWithTwoPointsFunc)(id, SEL, CGPoint, CGPoint);
 	
 	// was tilesFilled changed?
 	if(tempFilled != self.tilesFilled){
-		[self.imageMaskFilledDelegate imageMaskView:self cleatPercentWasChanged:[self procentsOfImageMasked]];
+		[self.imageMaskFilledDelegate imageMaskView:self clearPercentDidChanged:[self procentsOfImageMasked]];
 	}
 	
 	CGImageRef cgImage = CGBitmapContextCreateImage(ctx);

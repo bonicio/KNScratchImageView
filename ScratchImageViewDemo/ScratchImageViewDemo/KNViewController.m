@@ -18,8 +18,8 @@
     scratchImage.imageMaskFilledDelegate = self;
 }
 
-- (void)imageMaskView:(ImageMaskView *)maskView cleatPercentWasChanged:(float)clearPercent {
-	NSLog(@"percent: %.2f", clearPercent);
+- (void)imageMaskView:(ImageMaskView *)maskView clearPercentDidChanged:(float)clearPercent {
+	NSLog(@"Cleared percentage: %.2f", clearPercent);
     if (clearPercent > 80) {
         [[[UIAlertView alloc] initWithTitle:@"You won!!!" message:@"80% cleared" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
         [UIView animateWithDuration:1
