@@ -36,18 +36,6 @@
         <image name="scratch.png" width="640" height="1136"/>
         <image name="won.png" width="640" height="1136"/>
     </resources>
-    <classes>
-        <class className="ImageMaskView" superclassName="UIImageView">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/ImageMaskView.h"/>
-        </class>
-        <class className="KNViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/KNViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="scratchImage" candidateClass="ImageMaskView"/>
-                <relationship kind="outlet" name="wonImage" candidateClass="ImageMaskView"/>
-            </relationships>
-        </class>
-    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>

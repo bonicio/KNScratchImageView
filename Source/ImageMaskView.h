@@ -39,6 +39,7 @@
 
 @property (nonatomic, readonly) double procentsOfImageMasked;
 @property (nonatomic, assign) id<ImageMaskFilledDelegate> imageMaskFilledDelegate;
+@property (nonatomic, assign) CGFloat radius;
 
 -(void)beginInteraction;
 

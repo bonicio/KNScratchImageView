@@ -29,8 +29,6 @@
 #import "PointTransforms.h"
 #import "Matrix.h"
 
-enum{ radius = 20 };
-
 typedef void  (*FillTileWithPointFunc)( id, SEL, CGPoint );
 typedef void  (*FillTileWithTwoPointsFunc)(id, SEL, CGPoint, CGPoint);
 
@@ -63,17 +61,13 @@ typedef void  (*FillTileWithTwoPointsFunc)(id, SEL, CGPoint, CGPoint);
 
 #pragma mark -
 
-- (id)initWithFrame:(CGRect)frame {
-    if (self = [super initWithFrame:frame]) {
-        // Initialization code
-		self.userInteractionEnabled = YES;
-		self.backgroundColor = [UIColor clearColor];
-		self.imageMaskFilledDelegate = nil;
-    }
-    return self;
-}
-
 -(void)beginInteraction {
+    // Initialization code
+    self.userInteractionEnabled = YES;
+    self.backgroundColor = [UIColor clearColor];
+    self.imageMaskFilledDelegate = self.imageMaskFilledDelegate ? self.imageMaskFilledDelegate : nil;
+    self.radius = self.radius > 0 ? self.radius : 20;
+
     // Initalize bitmap context
     CGSize size = self.image.size;
     self.colorSpace = CGColorSpaceCreateDeviceRGB();
@@ -88,8 +82,8 @@ typedef void  (*FillTileWithTwoPointsFunc)(id, SEL, CGPoint, CGPoint);
     int blendMode = kCGBlendModeClear;
     CGContextSetBlendMode(self.imageContext, (CGBlendMode) blendMode);
 
-    tilesX = size.width / (2 * radius);
-    tilesY = size.height / (2 * radius);
+    tilesX = size.width / (2 * self.radius);
+    tilesY = size.height / (2 * self.radius);
 
     self.maskedMatrix = [[Matrix alloc] initWithMax:MySizeMake(tilesX, tilesY)];
     self.tilesFilled = 0;
@@ -124,13 +118,13 @@ typedef void  (*FillTileWithTwoPointsFunc)(id, SEL, CGPoint, CGPoint);
 	// process touches
 	for (UITouch *touch in touches) {
 		CGContextBeginPath(ctx);
-		CGRect rect = {[touch locationInView:self], {2*radius, 2*radius}};
+		CGRect rect = {[touch locationInView:self], {2*self.radius, 2*self.radius}};
 		rect.origin = fromUItoQuartz(rect.origin, self.bounds.size);
 		
 		if(UITouchPhaseBegan == touch.phase){
 			// on begin, we just draw ellipse
-			rect.origin.y -= radius;
-			rect.origin.x -= radius;
+			rect.origin.y -= self.radius;
+			rect.origin.x -= self.radius;
 			rect.origin = scalePoint(rect.origin, self.bounds.size, size);
 			
 			CGContextAddEllipseInRect(ctx, rect);
@@ -147,7 +141,7 @@ typedef void  (*FillTileWithTwoPointsFunc)(id, SEL, CGPoint, CGPoint);
 			
 			CGContextSetStrokeColor(ctx,CGColorGetComponents([UIColor yellowColor].CGColor));
 			CGContextSetLineCap(ctx, kCGLineCapRound);
-			CGContextSetLineWidth(ctx, 2*radius);
+			CGContextSetLineWidth(ctx, 2*self.radius);
 			CGContextMoveToPoint(ctx, prevPoint.x, prevPoint.y);
 			CGContextAddLineToPoint(ctx, rect.origin.x, rect.origin.y);
 			CGContextStrokePath(ctx);
