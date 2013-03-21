@@ -13,19 +13,21 @@ It also has a delegate callback with percentage of area that has been scratched 
 ### Features
 
 - UIImageView replacement
-- `.radius` for brush size
+- Customized brush size
 - Delegate callback for percentage cleared
 - ARC
 - Tested with iOS 5 and 6
 
 ### Installation / How to use
+
 * Copy all files in `Source` folder to your project
 * Replace your `UIImageView` with `ImageMaskView`
 * Call `[theImageView beginInteraction]`
+* See sample code for suggested use case
 
 ### License
 
-UIViewController+KNSemiModal is licensed under MIT License
+KNScratchImageView is licensed under MIT License
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
 in the Software without restriction, including without limitation the rights
